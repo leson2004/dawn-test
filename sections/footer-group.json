@@ -1,24 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
     "footer": {
       "type": "footer",
-      "blocks": {},
-      "block_order": [],
       "settings": {
-        "color_scheme": "scheme-1",
-        "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": true,
-        "show_social": true,
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "payment_enable": true,
-        "show_policy": true,
-        "margin_top": 0,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "logo": "shopify://shop_images/Logo.png",
+        "brand_name": "UMINO",
+        "address": "268 St, South New York, NY 98944, United States",
+        "phone": "+222-1800-2628",
+        "email": "blueskytechcompany@gmail.com",
+        "social_instagram": "https://admin.shopify.com/store/a",
+        "social_tiktok": "https://admin.shopify.com/store/sor",
+        "social_youtube": "",
+        "social_x": "",
+        "social_facebook": "",
+        "show_shop_follow": true,
+        "shop_follow_url": "",
+        "categories_heading": "HOT CATEGORIES",
+        "categories_menu": "",
+        "service_heading": "CUSTOMER SERVICE",
+        "service_menu": "",
+        "newsletter_heading": "SIGN UP TO NEWSLETTER",
+        "newsletter_description": "Enter your email address to get $10 off your first order and free shipping. Updates information on Sales and Offers.",
+        "email_placeholder": "Enter your email...",
+        "subscribe_text": "SUBSCRIBE",
+        "success_message": "Thank you for subscribing!",
+        "show_language": true,
+        "show_currency": true,
+        "show_payment_icons": true,
+        "copyright": "© 2023 Umino Store. All Rights Reserved.",
+        "content_width": 1410,
+        "background": "#ffffff",
+        "text_color": "#555555",
+        "heading_color": "#111111",
+        "border_color": "#eeeeee"
       }
     }
   },

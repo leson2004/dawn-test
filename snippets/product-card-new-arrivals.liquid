@@ -1,0 +1,156 @@
+
+{% liquid
+  assign card_image = product.featured_image
+  assign second_image = product.images[1]
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_tags = product.tags | join: ',' | downcase
+  assign is_preorder = false
+
+  if product_tags contains 'pre-order' or product_tags contains 'preorder'
+    assign is_preorder = true
+  endif
+
+  assign discount_amount = 0
+
+  if current_variant.compare_at_price > current_variant.price
+    assign discount_amount = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round
+  endif
+%}
+
+<article class="na-product-card">
+  <div class="na-product-card__media">
+    <a
+      class="na-product-card__image-link"
+      href="{{ product.url }}"
+      aria-label="{{ product.title | escape }}"
+    >
+      {% if card_image != blank %}
+        {{
+          card_image
+          | image_url: width: 800
+          | image_tag:
+            class: 'na-product-card__image',
+            widths: '240, 360, 480, 600, 800',
+            sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 25vw, 50vw',
+            loading: 'lazy',
+            alt: card_image.alt
+        }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'na-product-card__placeholder' }}
+      {% endif %}
+
+      {% if second_image != blank %}
+        {{
+          second_image
+          | image_url: width: 800
+          | image_tag:
+            class: 'na-product-card__image na-product-card__image--secondary',
+            widths: '240, 360, 480, 600, 800',
+            sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 25vw, 50vw',
+            loading: 'lazy',
+            alt: second_image.alt
+        }}
+      {% endif %}
+    </a>
+
+    <div class="na-product-card__badges">
+      {% if product.available == false %}
+        <span class="na-product-card__badge na-product-card__badge--sold-out">
+          Sold Out
+        </span>
+      {% else %}
+        {% if discount_amount > 0 %}
+          <span class="na-product-card__badge na-product-card__badge--sale">
+            -{{ discount_amount }}%
+          </span>
+        {% endif %}
+
+        {% if is_preorder %}
+          <span class="na-product-card__badge na-product-card__badge--preorder">
+            Pre-Order
+          </span>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <div class="na-product-card__actions">
+      <button
+        type="button"
+        class="na-product-card__action"
+        aria-label="View {{ product.title | escape }}"
+        onclick="window.location.href={{ product.url | json }}"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+            fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="12" cy="12" r="2.5"
+            fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+
+      {% if product.available %}
+        <a
+          class="na-product-card__action"
+          href="{{ product.url }}"
+          aria-label="Choose options for {{ product.title | escape }}"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5h2l2.2 10.2a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 1.9-1.4L21 9H7"
+              fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="20" r="1" fill="currentColor"/>
+            <circle cx="18" cy="20" r="1" fill="currentColor"/>
+          </svg>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="na-product-card__info">
+    <a class="na-product-card__title" href="{{ product.url }}">
+      {{ product.title | escape }}
+    </a>
+
+    {% if section.settings.show_rating %}
+      <div class="na-product-card__rating" aria-label="Rating display">
+        <span aria-hidden="true">★★★★★</span>
+      </div>
+    {% endif %}
+
+    <div class="na-product-card__prices">
+      <span class="na-product-card__price{% if discount_amount > 0 %} na-product-card__price--sale{% endif %}">
+        {{ current_variant.price | money }}
+      </span>
+
+      {% if current_variant.compare_at_price > current_variant.price %}
+        <s class="na-product-card__compare-price">
+          {{ current_variant.compare_at_price | money }}
+        </s>
+      {% endif %}
+    </div>
+   
+    {% if section.settings.show_color_swatches %}
+      {% for option in product.options_with_values %}
+        {% assign option_name = option.name | downcase %}
+
+        {% if option_name contains 'color' or option_name contains 'colour' or option_name contains 'màu' %}
+          <div class="na-product-card__swatches">
+  {% for value in option.values limit: 5 %}
+    {% assign swatch_color = value.swatch.color %}
+
+    <a
+      href="{{ product.url }}"
+      class="na-product-card__swatch"
+      style="--swatch-color: {{ swatch_color | default: '#dddddd' }};"
+      aria-label="{{ value | escape }}"
+      title="{{ value | escape }}"
+    ></a>
+  {% endfor %}
+</div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}  
+     
+
+</div> 
+</article>
